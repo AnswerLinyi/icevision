@@ -77,8 +77,8 @@ class VOCBBoxParser(Parser):
 
     def parse_fields(self, o, record, is_new):
         if is_new:
-            record.set_filepath(self.filepath(o))
-            record.set_img_size(self.img_size(o))
+            filepath = self.data_dir / 'TRAIN' / o.filename
+            record.set_filepath(filepath)
             if filepath.exists():
                 image_size = get_img_size(filepath)
                 record.set_img_size(image_size)
