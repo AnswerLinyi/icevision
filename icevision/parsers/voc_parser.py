@@ -79,8 +79,10 @@ class VOCBBoxParser(Parser):
         if is_new:
             record.set_filepath(self.filepath(o))
             record.set_img_size(self.img_size(o))
-
-        record.detection.set_class_map(self.class_map)
+             if filepath.exists():
+                image_size = get_img_size(filepath)
+                record.set_img_size(image_size)
+             record.detection.set_class_map(self.class_map)
         record.detection.add_labels(self.labels(o))
         record.detection.add_bboxes(self.bboxes(o))
 
