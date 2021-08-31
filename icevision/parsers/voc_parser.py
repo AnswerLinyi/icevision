@@ -76,15 +76,29 @@ class VOCBBoxParser(Parser):
         self._size = self._root.find("size")
 
 
-    def parse_fields(self, o, record, is_new):
+#     def parse_fields(self, o, record, is_new):
+#         if is_new:
+#             record.set_filepath(self.filepath(o))
+#             record.set_img_size(self.img_size(o))
+
+#         record.detection.set_class_map(self.class_map)
+#         record.detection.add_labels(self.labels(o))
+#         record.detection.add_bboxes(self.bboxes(o))
+      def parse_fields(self, o, record, is_new):
         if is_new:
-            record.set_filepath(self.filepath(o))
-            record.set_img_size(self.img_size(o))
+            filepath = self.filepath(o)
+            record.set_filepath(filepath)
+            #####
+            # Use get_img_size to get the right image sise
+            if filepath.exists():
+              image_size = get_img_size(filepath)
+              record.set_img_size(image_size)
+            #######
+            # record.set_img_size(ImgSize(width=o.width, height=o.height))
+            record.detection.set_class_map(self.class_map)
 
-        record.detection.set_class_map(self.class_map)
-        record.detection.add_labels(self.labels(o))
-        record.detection.add_bboxes(self.bboxes(o))
-
+        record.detection.add_bboxes([BBox.from_xyxy(o.xmin, o.ymin, o.xmax, o.ymax)])
+        record.detection.add_labels([o.label])
     def filepath(self, o) -> Union[str, Path]:
         return self.images_dir / self._filename
 
