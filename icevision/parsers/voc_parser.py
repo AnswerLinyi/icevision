@@ -85,14 +85,14 @@ class VOCBBoxParser(Parser):
 #         record.detection.add_labels(self.labels(o))
 #         record.detection.add_bboxes(self.bboxes(o))
       def parse_fields(self, o, record, is_new):
-         if is_new:
-            filepath = self.filepath(o)
-            record.set_filepath(filepath)
+          if is_new:
+             filepath = self.filepath(o)
+             record.set_filepath(filepath)
             #####
             # Use get_img_size to get the right image sise
             if filepath.exists():
-                image_size = get_img_size(filepath)
-                record.set_img_size(image_size)
+               image_size = get_img_size(filepath)
+               record.set_img_size(image_size)
             #######
             # record.set_img_size(ImgSize(width=o.width, height=o.height))
             record.detection.set_class_map(self.class_map)
