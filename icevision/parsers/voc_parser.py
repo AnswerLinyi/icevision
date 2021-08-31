@@ -96,7 +96,7 @@ class VOCBBoxParser(Parser):
             #######
             # record.set_img_size(ImgSize(width=o.width, height=o.height))
             record.detection.set_class_map(self.class_map)
-        record.detection.add_bboxes([BBox.from_xyxy(o.xmin, o.ymin, o.xmax, o.ymax)])
+        record.detection.add_bboxes(self.bboxes(o))
         record.detection.add_labels([o.label])
     def filepath(self, o) -> Union[str, Path]:
         return self.images_dir / self._filename
